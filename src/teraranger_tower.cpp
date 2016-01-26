@@ -151,14 +151,14 @@ void Teraranger_tower::serialDataCallback(uint8_t single_character)
         int16_t range7 = input_buffer[16] << 8;
         range7 |= input_buffer[17];
 
-        scan.ranges[0]=range0*0.001;
-        scan.ranges[1]=range1*0.001;
-        scan.ranges[2]=range2*0.001;
-        scan.ranges[3]=range3*0.001;
-        scan.ranges[4]=range4*0.001;
-        scan.ranges[5]=range5*0.001;
-        scan.ranges[6]=range6*0.001;
-        scan.ranges[7]=range7*0.001;
+        scan.ranges[0]=range0*0.001+0.0425;
+        scan.ranges[1]=range1*0.001+0.0425;
+        scan.ranges[2]=range2*0.001+0.0425;
+        scan.ranges[3]=range3*0.001+0.0425;
+        scan.ranges[4]=range4*0.001+0.0425;
+        scan.ranges[5]=range5*0.001+0.0425;
+        scan.ranges[6]=range6*0.001+0.0425;
+        scan.ranges[7]=range7*0.001+0.0425;
 
         scan_publisher_.publish(scan);        
       }

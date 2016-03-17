@@ -106,7 +106,7 @@ void Teraranger_tower::serialDataCallback(uint8_t single_character)
   scan.header.frame_id="scan";
 
   scan.scan_time = 0.012;
-  scan.range_min = 0.2;
+  scan.range_min = 0.026;
   scan.range_max = 14.0;
   scan.header.stamp = current_time - ros::Duration(scan.scan_time);
   scan.angle_max = 3.142;
@@ -116,7 +116,7 @@ void Teraranger_tower::serialDataCallback(uint8_t single_character)
   scan.ranges.resize(8);
   
   double inf = std::numeric_limits<double>::infinity();
-  double DistanceToCenter = 0.6;
+  double DistanceToCenter = 0.06;
   for (int i=0; i<8; i++)
   {
 	  scan.ranges[i]=inf;

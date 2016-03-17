@@ -35,10 +35,9 @@
  ****************************************************************************/
 
 #include <string>
-
 #include "teraranger_tower/teraranger_tower.h"
-
 #include <ros/console.h>
+#include <limits>
 
 namespace teraranger_tower
 {
@@ -50,7 +49,7 @@ Teraranger_tower::Teraranger_tower()
   private_node_handle_.param("portname", portname_, std::string("/dev/ttyACM0"));
 
   // Publishers
-  scan_publisher_ = nh_.advertise<sensor_msgs::LaserScan>("scan", 8);
+  scan_publisher_ = nh_.advertise<sensor_msgs::LaserScan>("scan", 50);
 
   // Create serial port
   serial_port_ = new SerialPort();
@@ -106,15 +105,22 @@ void Teraranger_tower::serialDataCallback(uint8_t single_character)
 
   scan.header.frame_id="scan";
 
-  scan.scan_time = 0.015;
+  scan.scan_time = 0.012;
   scan.range_min = 0.2;
-  scan.range_max = 5.0;
+  scan.range_max = 14.0;
   scan.header.stamp = current_time - ros::Duration(scan.scan_time);
   scan.angle_max = 3.142;
   scan.angle_min = -scan.angle_max;
   scan.time_increment = scan.scan_time /8; 
   scan.angle_increment = 2 * 3.141592 /8;
   scan.ranges.resize(8);
+  
+  double inf = std::numeric_limits<double>::infinity();
+  double DistanceToCenter = 0.6;
+  for (int i=0; i<8; i++)
+  {
+	  scan.ranges[i]=inf;
+  }
 
  if (single_character != 'T' && buffer_ctr < 19)
   {
@@ -151,14 +157,16 @@ void Teraranger_tower::serialDataCallback(uint8_t single_character)
         int16_t range7 = input_buffer[16] << 8;
         range7 |= input_buffer[17];
 
-        scan.ranges[0]=range0*0.001+0.0425;
-        scan.ranges[1]=range1*0.001+0.0425;
-        scan.ranges[2]=range2*0.001+0.0425;
-        scan.ranges[3]=range3*0.001+0.0425;
-        scan.ranges[4]=range4*0.001+0.0425;
-        scan.ranges[5]=range5*0.001+0.0425;
-        scan.ranges[6]=range6*0.001+0.0425;
-        scan.ranges[7]=range7*0.001+0.0425;
+//commment the sensors that you don't want to use
+        scan.ranges[0]=range0*0.001+DistanceToCenter;
+        scan.ranges[1]=range1*0.001+DistanceToCenter;
+        scan.ranges[2]=range2*0.001+DistanceToCenter;
+        scan.ranges[3]=range3*0.001+DistanceToCenter;
+        scan.ranges[4]=range4*0.001+DistanceToCenter;
+        scan.ranges[5]=range5*0.001+DistanceToCenter;
+        scan.ranges[6]=range6*0.001+DistanceToCenter;
+        scan.ranges[7]=range7*0.001+DistanceToCenter;
+        
 
         scan_publisher_.publish(scan);        
       }

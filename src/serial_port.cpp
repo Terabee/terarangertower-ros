@@ -68,7 +68,7 @@ bool SerialPort::connect(const std::string port)
   }
   else
   {
-    fcntl(serial_port_fd_, F_SETFL, 0);
+    fcntl(serial_port_fd_, F_SETFL, 10);
   }
 
   struct termios newtio;

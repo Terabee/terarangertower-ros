@@ -117,9 +117,10 @@ void Teraranger_tower::serialDataCallback(uint8_t single_character)
   
   double inf = std::numeric_limits<double>::infinity();
   double DistanceToCenter = 0.06;
+  int16_t ranges[8];
   for (int i=0; i<8; i++)
   {
-	  scan.ranges[i]=inf;
+      scan.ranges[i]=inf;
   }
 
  if (single_character != 'T' && buffer_ctr < 19)
@@ -140,32 +141,32 @@ void Teraranger_tower::serialDataCallback(uint8_t single_character)
 
       if (crc == input_buffer[18])
       {
-        int16_t range0 = input_buffer[2] << 8;
-        range0 |= input_buffer[3];
-        int16_t range1 = input_buffer[4] << 8;
-        range1 |= input_buffer[5];
-        int16_t range2 = input_buffer[6] << 8;
-        range2 |= input_buffer[7];
-        int16_t range3 = input_buffer[8] << 8;
-        range3 |= input_buffer[9];
-        int16_t range4 = input_buffer[10] << 8;
-        range4 |= input_buffer[11];
-        int16_t range5 = input_buffer[12] << 8;
-        range5 |= input_buffer[13];
-        int16_t range6 = input_buffer[14] << 8;
-        range6 |= input_buffer[15];
-        int16_t range7 = input_buffer[16] << 8;
-        range7 |= input_buffer[17];
-
-//commment the sensors that you don't want to use
-        scan.ranges[0]=range0*0.001+DistanceToCenter;
-        scan.ranges[1]=range1*0.001+DistanceToCenter;
-        scan.ranges[2]=range2*0.001+DistanceToCenter;
-        scan.ranges[3]=range3*0.001+DistanceToCenter;
-        scan.ranges[4]=range4*0.001+DistanceToCenter;
-        scan.ranges[5]=range5*0.001+DistanceToCenter;
-        scan.ranges[6]=range6*0.001+DistanceToCenter;
-        scan.ranges[7]=range7*0.001+DistanceToCenter;
+        for (int i = 0; i < 8; i++)
+        {
+            ranges[i] = input_buffer[(i+1)*2] << 8;
+            ranges[i] |= input_buffer[(i+1)*2+1];
+        }
+        //Uncommment the sensors that you don't want to use
+        //~ ranges[0]= -1;
+        //~ ranges[1]= -1;
+        //~ ranges[2]= -1;
+        //~ ranges[3]= -1;
+        //~ ranges[4]= -1;
+        //~ ranges[5]= -1;
+        //~ ranges[6]= -1;
+        //~ ranges[7]= -1;
+     
+        for (int i = 0; i < 8; i++)
+        {
+            if (ranges[i] == 0)
+            {
+                scan.ranges[i] = inf;
+            }
+            else
+            {
+                scan.ranges[i] = ranges[i]*0.001 + DistanceToCenter;
+            }
+        }
         
 
         scan_publisher_.publish(scan);        

@@ -147,14 +147,14 @@ void Teraranger_tower::serialDataCallback(uint8_t single_character)
             ranges[i] |= input_buffer[(i+1)*2+1];
         }
         //Uncommment the sensors that you don't want to use
-        //~ ranges[0]= -1;
-        //~ ranges[1]= -1;
-        //~ ranges[2]= -1;
-        //~ ranges[3]= -1;
-        //~ ranges[4]= -1;
-        //~ ranges[5]= -1;
-        //~ ranges[6]= -1;
-        //~ ranges[7]= -1;
+        //~ ranges[0]= 0;
+        //~ ranges[1]= 0;
+        //~ ranges[2]= 0;
+        //~ ranges[3]= 0;
+        //~ ranges[4]= 0;
+        //~ ranges[5]= 0;
+        //~ ranges[6]= 0;
+        //~ ranges[7]= 0;
      
         for (int i = 0; i < 8; i++)
         {

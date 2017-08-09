@@ -1,4 +1,6 @@
-# DEPRECATED, PLEASE USE: tr_hub_parser
+# DEPRECATION warning
+
+This package will not be supported in the future. To get the latest updates please use [teraranger_array package](https://github.com/Terabee/teraranger_array) with teraranger_one node.
 
 
 TeraRanger Tower ROS Module
